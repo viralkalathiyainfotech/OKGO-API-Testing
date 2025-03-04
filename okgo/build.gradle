@@ -15,22 +15,55 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled = false  // ✅ Correct syntax
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'proguard-rules.pro'
+            consumerProguardFiles 'consumer-rules.pro'       // << --- ADD This
         }
     }
     lint {
         baseline = file("lint-baseline.xml")
     }
 
+//    java {
+//        toolchain {
+//            languageVersion = JavaLanguageVersion.of(11)        // << --- ADD This
+//        }
+//    }
+
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_11            // << --- ADD This
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
 
 }
 
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'com.github.viralkalathiyainfotech'
+            artifactId = 'okgo'
+            version = "1.0.0"
+            pom {
+                description = 'DESCRIPTION'
+            }
+        }
+    }
+    repositories {               // << --- ADD This
+        mavenLocal()
+    }
+}
+
+
+/*
 afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
-                artifact("$buildDir/outputs/aar/okgo.aar")
-//                from components["release"]
+//                artifact("$buildDir/outputs/aar/okgo.aar")
+                from components["release"]
                 groupId = 'com.github.viralkalathiyainfotech'
                 artifactId = 'okgo'
                 version = '1.0.0'
@@ -38,6 +71,7 @@ afterEvaluate {
         }
     }
 }
+*/
 
 
 

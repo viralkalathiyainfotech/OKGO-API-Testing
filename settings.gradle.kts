@@ -7,6 +7,7 @@ pluginManagement {
                 includeGroupByRegex("androidx.*")
             }
         }
+        mavenLocal()            // << --- ADD This
         mavenCentral()
         gradlePluginPortal()
     }
@@ -14,6 +15,7 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        mavenLocal()            // << --- ADD This
         google()
         mavenCentral()
         maven { url = uri("https://jitpack.io") }
@@ -23,3 +25,5 @@ dependencyResolutionManagement {
 rootProject.name = "OKGO-API-Testing"
 include(":app")
 include(":okgo")
+
+
