@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.viralkalathiyainfotech</groupId>
   <artifactId>OKGO-API-Testing</artifactId>
-  <version>VERSION</version>
-  <packaging>1.0</packaging>
+  <version>1.0</version>
+  <packaging>pom</packaging>
   <description>Ok-Go Https Common</description>
 </project>
