@@ -1,4 +1,9 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
+
+group = 'com.github.viralkalathiyainfotech'
+version = "1.0.0"
+
 
 android {
     namespace = "com.lzy.okgo"
@@ -8,7 +13,33 @@ android {
         minSdk = 24
         targetSdk = 34
     }
+    buildTypes {
+        release {
+            minifyEnabled = false  // ✅ Correct syntax
+        }
+    }
+    lint {
+        baseline = file("lint-baseline.xml")
+    }
+
+
 }
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                artifact("$buildDir/outputs/aar/okgo.aar")
+//                from components["release"]
+                groupId = 'com.github.viralkalathiyainfotech'
+                artifactId = 'okgo'
+                version = '1.0.0'
+            }
+        }
+    }
+}
+
+
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -18,3 +49,4 @@ dependencies {
 }
 
 //apply from: 'bintray.gradle'
+

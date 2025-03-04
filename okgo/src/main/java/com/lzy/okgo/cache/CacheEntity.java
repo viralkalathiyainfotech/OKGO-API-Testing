@@ -112,13 +112,31 @@ public class CacheEntity<T> implements Serializable {
 
     public static <T> CacheEntity<T> parseCursorToBean(Cursor cursor) {
         CacheEntity<T> cacheEntity = new CacheEntity<>();
-        cacheEntity.setKey(cursor.getString(cursor.getColumnIndex(KEY)));
-        cacheEntity.setLocalExpire(cursor.getLong(cursor.getColumnIndex(LOCAL_EXPIRE)));
-        cacheEntity.setResponseHeaders((HttpHeaders) IOUtils.toObject(cursor.getBlob(cursor.getColumnIndex(HEAD))));
-        //noinspection unchecked
-        cacheEntity.setData((T) IOUtils.toObject(cursor.getBlob(cursor.getColumnIndex(DATA))));
+
+        // Get column indexes with checks to avoid invalid column indices
+        int keyColumnIndex = cursor.getColumnIndex(KEY);
+        int localExpireColumnIndex = cursor.getColumnIndex(LOCAL_EXPIRE);
+        int headersColumnIndex = cursor.getColumnIndex(HEAD);
+        int dataColumnIndex = cursor.getColumnIndex(DATA);
+
+        // Check if column indexes are valid (>= 0)
+        if (keyColumnIndex != -1) {
+            cacheEntity.setKey(cursor.getString(keyColumnIndex));
+        }
+        if (localExpireColumnIndex != -1) {
+            cacheEntity.setLocalExpire(cursor.getLong(localExpireColumnIndex));
+        }
+        if (headersColumnIndex != -1) {
+            cacheEntity.setResponseHeaders((HttpHeaders) IOUtils.toObject(cursor.getBlob(headersColumnIndex)));
+        }
+        if (dataColumnIndex != -1) {
+            //noinspection unchecked
+            cacheEntity.setData((T) IOUtils.toObject(cursor.getBlob(dataColumnIndex)));
+        }
+
         return cacheEntity;
     }
+
 
     @Override
     public String toString() {
